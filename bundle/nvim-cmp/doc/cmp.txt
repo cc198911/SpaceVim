@@ -12,8 +12,10 @@ Function                                                          |cmp-function|
 Mapping                                                            |cmp-mapping|
 Command                                                            |cmp-command|
 Highlight                                                        |cmp-highlight|
+FileType                                                          |cmp-filetype|
 Autocmd                                                            |cmp-autocmd|
 Config                                                              |cmp-config|
+Config Helper                                                |cmp-config-helper|
 Develop                                                            |cmp-develop|
 FAQ                                                                    |cmp-faq|
 

@@ -261,7 +261,8 @@ let s:lsp_servers = {
       \ 'typescript' : ['typescript-language-server', '--stdio'],
       \ 'typescriptreact' : ['typescript-language-server', '--stdio'],
       \ 'vim' : ['vim-language-server', '--stdio'],
-      \ 'vue' : ['vls']
+      \ 'vue' : ['vls'],
+      \ 'lua' : ['lua-language-server', '--stdio']
       \ }
 
 function! SpaceVim#layers#lsp#set_variable(var) abort

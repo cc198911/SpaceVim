@@ -108,7 +108,7 @@ compare.locality = setmetatable({
   locality_map = {},
   update = function(self)
     local config = require('cmp').get_config()
-    if not vim.tbl_contains(config.sorting.comparators, compare.scopes) then
+    if not vim.tbl_contains(config.sorting.comparators, compare.locality) then
       return
     end
 
@@ -132,7 +132,7 @@ compare.locality = setmetatable({
           local s, e = regexp:match_str(buffer)
           if s and e then
             local w = string.sub(buffer, s + 1, e)
-            local d = math.abs(i - cursor_row) - (is_above and 0.1 or 0)
+            local d = math.abs(i - cursor_row) - (is_above and 1 or 0)
             locality_map[w] = math.min(locality_map[w] or math.huge, d)
             buffer = string.sub(buffer, e + 1)
           else
@@ -145,7 +145,7 @@ compare.locality = setmetatable({
         self.locality_map[w] = math.min(self.locality_map[w] or d, math.abs(i - cursor_row))
       end
     end
-  end
+  end,
 }, {
   __call = function(self, entry1, entry2)
     local local1 = self.locality_map[entry1:get_word()]
@@ -159,7 +159,7 @@ compare.locality = setmetatable({
       end
       return local1 < local2
     end
-  end
+  end,
 })
 
 -- scopes
@@ -175,7 +175,6 @@ compare.scopes = setmetatable({
     if ok then
       local win, buf = vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf()
       local cursor_row = vim.api.nvim_win_get_cursor(win)[1] - 1
-      local ts_utils = require('nvim-treesitter.ts_utils')
 
       -- Cursor scope.
       local cursor_scope = nil
@@ -205,7 +204,7 @@ compare.scopes = setmetatable({
         for _, definition in pairs(definitions) do
           if s <= definition.node:start() and definition.node:end_() <= e then
             if scope:id() == locals.containing_scope(definition.node, buf):id() then
-              local text = ts_utils.get_node_text(definition.node)[1]
+              local text = vim.treesitter.query.get_node_text(definition.node, buf) or ''
               if not self.scopes_map[text] then
                 self.scopes_map[text] = depth
               end

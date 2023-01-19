@@ -39,6 +39,8 @@ function! cmp#_method(bridge_id, method, args) abort
       return l:source[a:method]()
     elseif a:method ==# 'get_debug_name'
       return l:source[a:method]()
+    elseif a:method ==# 'get_position_encoding_kind'
+      return l:source[a:method](a:args[0])
     elseif a:method ==# 'get_keyword_pattern'
       return l:source[a:method](a:args[0])
     elseif a:method ==# 'get_trigger_characters'
